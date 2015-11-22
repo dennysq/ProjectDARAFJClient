@@ -11,4 +11,6 @@ package com.daraf.projectdarafjclient;
  */
 public class fdndg {
     
+    private Integer a;
+    
 }
