@@ -11,4 +11,7 @@ package com.daraf.projectdarafjclient;
  */
 public class fdndg {
     
+    //vhdhiouhv
+    private String hh;
+    
 }
