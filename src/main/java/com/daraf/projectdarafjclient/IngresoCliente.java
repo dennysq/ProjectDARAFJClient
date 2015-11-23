@@ -5,6 +5,8 @@
  */
 package com.daraf.projectdarafjclient;
 
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author MONY
@@ -183,7 +185,11 @@ public class IngresoCliente extends javax.swing.JFrame {
         identificacion=txtidentica.getText();
         if(nombre!=null && telefono!=null && direccion!=null && identificacion.length()==10)
         {
-            
+            if(Communication.insertcliente(identificacion, nombre, direccion, telefono)){
+                JOptionPane.showMessageDialog(null, "Ingreso Correcto");}
+                else{
+                JOptionPane.showMessageDialog(null, "Usuario Incorrecto");
+            }
         }
         
     }//GEN-LAST:event_btnGuardarActionPerformed
