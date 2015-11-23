@@ -111,7 +111,8 @@ public class Login extends javax.swing.JFrame {
         usuario= txtUsuario.getText();
         password= txtPassword.getText();
         
-        if(usuario!= null && password!=null){
+        if(usuario!= null && password!=null)
+        {
             
         }
         
