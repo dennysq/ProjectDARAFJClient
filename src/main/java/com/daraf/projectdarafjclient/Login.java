@@ -5,6 +5,9 @@
  */
 package com.daraf.projectdarafjclient;
 
+import com.daraf.projectdarafprotocol.model.Empresa;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Alejandra Ponce
@@ -107,15 +110,19 @@ public class Login extends javax.swing.JFrame {
 
         String usuario;
         String password;
-        
-        usuario= txtUsuario.getText();
-        password= txtPassword.getText();
-        
-        if(usuario!= null && password!=null)
-        {
-            
+
+        usuario = txtUsuario.getText();
+        password = txtPassword.getText();
+
+        if (usuario != null && password != null) {
+            Empresa emp = Communication.retrieveEmpresa(usuario, password);
+            if (emp != null) {
+                JOptionPane.showMessageDialog(null, "Usuario Correcto");
+            } else {
+                JOptionPane.showMessageDialog(null, "El Usuario es incorrecto");
+            }
         }
-        
+
         // TODO add your handling code here:
     }//GEN-LAST:event_btnLoginActionPerformed
 
