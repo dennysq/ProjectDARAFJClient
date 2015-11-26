@@ -9,8 +9,6 @@ import com.daraf.projectdarafprotocol.AppClient;
 import com.daraf.projectdarafprotocol.Mensaje;
 import com.daraf.projectdarafprotocol.clienteapp.MensajeRQ;
 import com.daraf.projectdarafprotocol.clienteapp.MensajeRS;
-import com.daraf.projectdarafprotocol.clienteapp.consultas.ConsultaClienteRQ;
-import com.daraf.projectdarafprotocol.clienteapp.consultas.ConsultaClienteRS;
 import com.daraf.projectdarafprotocol.clienteapp.consultas.ConsultaProductoRQ;
 import com.daraf.projectdarafprotocol.clienteapp.consultas.ConsultaProductoRS;
 import com.daraf.projectdarafprotocol.clienteapp.ingresos.IngresoClienteRQ;
@@ -76,24 +74,8 @@ public class Communication {
                 return false;
     }
     
-    /*
-    public static boolean buscarcliente(String datos)
-    {
-        if(datos!=null && datos.length()==10)
-        {
-            AppClient appClient = new AppClient();
-            ConsultaClienteRQ cliRQ=new ConsultaClienteRQ();
-            cliRQ.setIdentificacion(datos);
-            
-            MensajeRQ mensajeRQ =new MensajeRQ("CONSULTACL",Mensaje.ID_MENSAJE_CONSULTACLIENTE);
-            mensajeRQ.setCuerpo(cliRQ);
-            MensajeRS mensajeRS = appClient.sendRequest(mensajeRQ);
-            ConsultaClienteRS cliRS =(ConsultaClienteRS)mensajeRS.getCuerpo();
-        }
-    }*/
-    
     public static Producto retrieveProducto(String idProducto) {
-        Producto producto = new Producto();
+               
         if (idProducto != null) {
             AppClient appClient = new AppClient();
             ConsultaProductoRQ cprq = new ConsultaProductoRQ();
@@ -106,7 +88,7 @@ public class Communication {
             ConsultaProductoRS cprs = (ConsultaProductoRS) mensajeRS.getCuerpo();
             if (cprs.getResultado().equals("1")) {
                 System.out.println(""+cprs.getProducto());
-                return producto;
+                return cprs.getProducto();
             }
         }
         return null;
