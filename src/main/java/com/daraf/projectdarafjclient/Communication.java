@@ -73,10 +73,8 @@ public class Communication {
                 return false;
     }
     
-    /*
-    public static boolean buscarcliente(String datos)
+    public static Cliente buscarcliente(String datos)
     {
-        Cliente cliente=new Cliente();
         if(datos!=null && datos.length()==10)
         {
             AppClient appClient = new AppClient();
@@ -88,11 +86,13 @@ public class Communication {
             MensajeRS mensajeRS = appClient.sendRequest(mensajeRQ);
             ConsultaClienteRS cliRS =(ConsultaClienteRS)mensajeRS.getCuerpo();
             if(cliRS.getResultado().equals("1")){
+                System.out.println(""+cliRS.getCliente());
                 return cliRS.getCliente();
             }
             
         }
-    }*/
+        return null;
+    }
     
     public static Producto retrieveProducto(String idProducto) {
         Producto producto = new Producto();
