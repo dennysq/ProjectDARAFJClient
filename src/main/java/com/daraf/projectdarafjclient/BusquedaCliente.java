@@ -6,6 +6,7 @@
 package com.daraf.projectdarafjclient;
 
 import com.daraf.projectdarafprotocol.model.Cliente;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -119,10 +120,13 @@ public class BusquedaCliente extends javax.swing.JFrame {
         // TODO add your handling code here:
         String buscar;// valor fijo: 10 ejemplo:0000000019
         buscar=txtdatos.getText();
-        if(buscar!=null && numero(buscar)){
+        if(buscar!=null){
             Cliente cliente=new Cliente();
            cliente= Communication.buscarcliente(buscar);
            System.out.print(cliente);
+           DefaultTableModel modelo = (DefaultTableModel)TblBuscar.getModel();
+           cliente=new Cliente("20","7","88888","hkjhk");
+           modelo.addRow(new String[]{cliente.getIdentificacion(),cliente.getNombre(),cliente.getTelefono(),cliente.getDireccion()});
         }
     }//GEN-LAST:event_BtnbuscarActionPerformed
     private boolean numero(String n){
