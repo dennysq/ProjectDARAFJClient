@@ -23,7 +23,7 @@ public class PruebaInsertFactura {
         List<DetalleFacturaAppRQ> detalles = new ArrayList<>();
         detalles.add(new DetalleFacturaAppRQ("1", "3"));
         detalles.add(new DetalleFacturaAppRQ("1", "1"));
-        String result = Communication.registrarFactura("4", "0604133546", Calendar.getInstance().getTime(), 200.20f, detalles);
+        String result = Communication.registrarFactura("5", "0604133546", Calendar.getInstance().getTime(), 200.20f, detalles);
         System.out.println("" + result);
         //1 correcto
         //2 algun producto sobrepasa el stock
