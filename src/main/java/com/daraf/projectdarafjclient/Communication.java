@@ -9,6 +9,8 @@ import com.daraf.projectdarafprotocol.AppClient;
 import com.daraf.projectdarafprotocol.Mensaje;
 import com.daraf.projectdarafprotocol.clienteapp.MensajeRQ;
 import com.daraf.projectdarafprotocol.clienteapp.MensajeRS;
+import com.daraf.projectdarafprotocol.clienteapp.consultas.ConsultaClienteRQ;
+import com.daraf.projectdarafprotocol.clienteapp.consultas.ConsultaClienteRS;
 import com.daraf.projectdarafprotocol.clienteapp.consultas.ConsultaProductoRQ;
 import com.daraf.projectdarafprotocol.clienteapp.consultas.ConsultaProductoRS;
 import com.daraf.projectdarafprotocol.clienteapp.ingresos.IngresoClienteRQ;
