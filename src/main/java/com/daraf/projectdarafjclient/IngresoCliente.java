@@ -183,9 +183,9 @@ public class IngresoCliente extends javax.swing.JFrame {
         telefono=txttelefono.getText();
         direccion=txtdireccion.getText();
         identificacion=txtidentica.getText();
-        if(nombre!=null && telefono!=null && direccion!=null && identificacion.length()==10)
+        if(nombre!=null && telefono!=null && direccion!=null && identificacion.length()>9 && identificacion.length()<=15 )
         {
-            if(Communication.insertcliente(identificacion, nombre, direccion, telefono)){
+            if(Communication.insertcliente(identificacion, nombre, telefono, direccion)){
                 JOptionPane.showMessageDialog(null, "Ingreso Correcto");}
                 else{
                 JOptionPane.showMessageDialog(null, "Usuario Incorrecto");

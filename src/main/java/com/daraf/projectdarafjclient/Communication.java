@@ -68,9 +68,32 @@ public class Communication {
         }
         return null;
     }
-
-    public static boolean insertcliente(String id, String nombre, String direccion, String telefono) {
-        if (nombre != null && telefono != null && direccion != null && id.length() == 10) {
+    
+    public static boolean insertcliente(String id, String nombre, String telefono, String direccion)
+    {
+                if(nombre!=null && telefono!=null && direccion!=null && id!=null && id.length()>9 && id.length()<=15)
+                {
+                    AppClient appClient = new AppClient();
+                    IngresoClienteRQ ing= new IngresoClienteRQ();
+                    ing.setCliente(new Cliente(id, nombre, telefono, direccion));
+                    MensajeRQ mensajeRQ =new MensajeRQ("INGRESOCLI", Mensaje.ID_MENSAJE_INGRESOCLIENTE);
+                    mensajeRQ.setCuerpo(ing);
+                    MensajeRS mensajeRS = appClient.sendRequest(mensajeRQ);
+                    IngresoClienteRS ingrs=(IngresoClienteRS)mensajeRS.getCuerpo();
+                    if (ingrs.getResultado().equals("1")) {
+                      return true;
+                    }
+                      else{
+                              return false;
+                          }
+            }
+                return false;
+    }
+    
+    public static Cliente buscarcliente(String datos)
+    {
+        if(datos!=null && datos.length()>9 && datos.length()<=15)
+        {
             AppClient appClient = new AppClient();
             IngresoClienteRQ ing = new IngresoClienteRQ();
             ing.setCliente(new Cliente(id, nombre, direccion, telefono));
