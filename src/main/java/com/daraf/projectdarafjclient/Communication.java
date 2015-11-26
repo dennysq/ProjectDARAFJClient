@@ -11,11 +11,14 @@ import com.daraf.projectdarafprotocol.clienteapp.MensajeRQ;
 import com.daraf.projectdarafprotocol.clienteapp.MensajeRS;
 import com.daraf.projectdarafprotocol.clienteapp.consultas.ConsultaClienteRQ;
 import com.daraf.projectdarafprotocol.clienteapp.consultas.ConsultaClienteRS;
+import com.daraf.projectdarafprotocol.clienteapp.consultas.ConsultaProductoRQ;
+import com.daraf.projectdarafprotocol.clienteapp.consultas.ConsultaProductoRS;
 import com.daraf.projectdarafprotocol.clienteapp.ingresos.IngresoClienteRQ;
 import com.daraf.projectdarafprotocol.clienteapp.ingresos.IngresoClienteRS;
 import com.daraf.projectdarafprotocol.clienteapp.seguridades.AutenticacionEmpresaRQ;
 import com.daraf.projectdarafprotocol.clienteapp.seguridades.AutenticacionEmpresaRS;
 import com.daraf.projectdarafprotocol.model.Empresa;
+import com.daraf.projectdarafprotocol.model.Producto;
 
 /**
  *
@@ -47,6 +50,7 @@ public class Communication {
         }
         return null;
     }
+    
     public static boolean insertcliente(String id, String nombre, String direccion, String telefono)
     {
                 if(nombre!=null && telefono!=null && direccion!=null && id.length()==10)
@@ -71,6 +75,8 @@ public class Communication {
             }
                 return false;
     }
+    
+    /*
     public static boolean buscarcliente(String datos)
     {
         if(datos!=null && datos.length()==10)
@@ -83,9 +89,27 @@ public class Communication {
             mensajeRQ.setCuerpo(cliRQ);
             MensajeRS mensajeRS = appClient.sendRequest(mensajeRQ);
             ConsultaClienteRS cliRS =(ConsultaClienteRS)mensajeRS.getCuerpo();
-            
-            
         }
+    }*/
+    
+    public static Producto retrieveProducto(String idProducto) {
+        Producto producto = new Producto();
+        if (idProducto != null) {
+            AppClient appClient = new AppClient();
+            ConsultaProductoRQ cprq = new ConsultaProductoRQ();
+
+            cprq.setIdProducto(idProducto);
+
+            MensajeRQ mensajeRQ = new MensajeRQ("ale", Mensaje.ID_MENSAJE_CONSULTAPRODUCTO);
+            mensajeRQ.setCuerpo(cprq);
+            MensajeRS mensajeRS = appClient.sendRequest(mensajeRQ);
+            ConsultaProductoRS cprs = (ConsultaProductoRS) mensajeRS.getCuerpo();
+            if (cprs.getResultado().equals("1")) {
+                System.out.println(""+cprs.getProducto());
+                return producto;
+            }
+        }
+        return null;
     }
 }
 
