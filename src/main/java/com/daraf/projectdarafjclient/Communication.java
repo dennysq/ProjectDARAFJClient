@@ -11,21 +11,27 @@ import com.daraf.projectdarafprotocol.clienteapp.MensajeRQ;
 import com.daraf.projectdarafprotocol.clienteapp.MensajeRS;
 import com.daraf.projectdarafprotocol.clienteapp.ingresos.IngresoClienteRQ;
 import com.daraf.projectdarafprotocol.clienteapp.ingresos.IngresoClienteRS;
+import com.daraf.projectdarafprotocol.clienteapp.ingresos.IngresoFacturaRQ;
+import com.daraf.projectdarafprotocol.clienteapp.ingresos.IngresoFacturaRS;
 import com.daraf.projectdarafprotocol.clienteapp.seguridades.AutenticacionEmpresaRQ;
 import com.daraf.projectdarafprotocol.clienteapp.seguridades.AutenticacionEmpresaRS;
+import com.daraf.projectdarafprotocol.model.DetalleFactura;
 import com.daraf.projectdarafprotocol.model.Empresa;
+import java.util.List;
 
 /**
  *
  * @author Dennys
  */
 public class Communication {
-/**
- * 
- * @param usuario
- * @param password
- * @return nulo si no se ha encontrado la empresa en el sistema caso contratio trae el objeto empresa
- */
+
+    /**
+     *
+     * @param usuario
+     * @param password
+     * @return nulo si no se ha encontrado la empresa en el sistema caso
+     * contratio trae el objeto empresa
+     */
     public static Empresa retrieveEmpresa(String usuario, String password) {
         if (usuario != null && password != null) {
             AppClient appClient = new AppClient();
@@ -37,37 +43,63 @@ public class Communication {
             MensajeRQ mensajeRQ = new MensajeRQ("dennys", Mensaje.ID_MENSAJE_AUTENTICACIONCLIENTE);
             mensajeRQ.setCuerpo(aerq);
             MensajeRS mensajeRS = appClient.sendRequest(mensajeRQ);
-            AutenticacionEmpresaRS aers = (AutenticacionEmpresaRS) mensajeRS.getCuerpo();
-            if (aers.getResultado().equals("1")) {
-                System.out.println(""+aers.getEmpresa());
-                return aers.getEmpresa();
+            if (mensajeRS != null) {
+                AutenticacionEmpresaRS aers = (AutenticacionEmpresaRS) mensajeRS.getCuerpo();
+                if (aers.getResultado().equals("1")) {
+                    System.out.println("" + aers.getEmpresa());
+                    return aers.getEmpresa();
+                }
             }
         }
         return null;
     }
-    public static boolean insertcliente(String id, String nombre, String direccion, String telefono)
-    {
-                if(nombre!=null && telefono!=null && direccion!=null && id.length()==10)
-                {
-                    AppClient appClient = new AppClient();
-                    IngresoClienteRQ ing= new IngresoClienteRQ();
-                    ing.setId(id);
-                    ing.setNombre(nombre);
-                    ing.setDireccion(direccion);
-                    ing.setTelefono(telefono);
-                    
-                    MensajeRQ mensajeRQ =new MensajeRQ("freddy", Mensaje.ID_MENSAJE_INGRESOCLIENTE);
-                    mensajeRQ.setCuerpo(ing);
-                    MensajeRS mensajeRS = appClient.sendRequest(mensajeRQ);
-                    IngresoClienteRS ingrs=(IngresoClienteRS)mensajeRS.getCuerpo();
-                    if (ingrs.getResultado().equals("1")) {
-                      return true;
-                    }
-                      else{
-                              return false;
-                          }
+
+    public static boolean insertcliente(String id, String nombre, String direccion, String telefono) {
+        if (nombre != null && telefono != null && direccion != null && id.length() == 10) {
+            AppClient appClient = new AppClient();
+            IngresoClienteRQ ing = new IngresoClienteRQ();
+            ing.setId(id);
+            ing.setNombre(nombre);
+            ing.setDireccion(direccion);
+            ing.setTelefono(telefono);
+
+            MensajeRQ mensajeRQ = new MensajeRQ("freddy", Mensaje.ID_MENSAJE_INGRESOCLIENTE);
+            mensajeRQ.setCuerpo(ing);
+            MensajeRS mensajeRS = appClient.sendRequest(mensajeRQ);
+            if (mensajeRS != null) {
+                IngresoClienteRS ingrs = (IngresoClienteRS) mensajeRS.getCuerpo();
+                if (ingrs.getResultado().equals("1")) {
+                    return true;
+                } else {
+                    return false;
+                }
             }
+        }
+        return false;
+    }
+
+    public static boolean registrarFactura(String identificacionCliente, String direccion, String telefono, String nombreCliente, List<DetalleFactura> detalles) {
+
+        IngresoFacturaRQ ingresoFacturaRQ = new IngresoFacturaRQ();
+        AppClient appClient = new AppClient();
+
+        ingresoFacturaRQ.setDetalles(detalles);
+        ingresoFacturaRQ.setDireccion(direccion);
+        ingresoFacturaRQ.setTelefono(telefono);
+        ingresoFacturaRQ.setIdentificacion(identificacionCliente);
+        ingresoFacturaRQ.setNumeroDetalles(String.valueOf(detalles.size()));
+        MensajeRQ mensajeRQ = new MensajeRQ("dennys", Mensaje.ID_MENSAJE_INGRESOFACTURA);
+        mensajeRQ.setCuerpo(ingresoFacturaRQ);
+        MensajeRS mensajeRS = appClient.sendRequest(mensajeRQ);
+        if (mensajeRS != null) {
+            IngresoFacturaRS ingresoFacturaRS = (IngresoFacturaRS) mensajeRS.getCuerpo();
+            if (ingresoFacturaRS.getResultado().equals("1")) {
+                return true;
+            } else {
                 return false;
+            }
+        }
+        return false;
+
     }
 }
-
