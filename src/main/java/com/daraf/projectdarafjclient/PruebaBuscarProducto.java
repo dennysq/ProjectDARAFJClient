@@ -18,7 +18,7 @@ public class PruebaBuscarProducto {
     public static void main(String[] args) {
 
         String idProducto;
-        idProducto = "1";
+        idProducto = "3";
 
         Producto producto = Communication.retrieveProducto(idProducto);
         if (producto != null) {
