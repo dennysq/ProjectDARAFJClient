@@ -5,31 +5,32 @@
  */
 package com.daraf.projectdarafjclient;
 
-
+import com.daraf.projectdarafprotocol.model.DetalleFacturaAppRQ;
 import com.daraf.projectdarafprotocol.model.Producto;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
 import javax.swing.JOptionPane;
 
 /**
  *
  * @author Alejandra Ponce
  */
-public class PruebaBuscarProducto {
+public class PruebaInsertFactura {
 
     public static void main(String[] args) {
 
-        String idProducto;
-        idProducto = "3";
+        List<DetalleFacturaAppRQ> detalles = new ArrayList<>();
+        detalles.add(new DetalleFacturaAppRQ("1", "3"));
+        detalles.add(new DetalleFacturaAppRQ("1", "1"));
+        String result = Communication.registrarFactura("2", "0604133546", Calendar.getInstance().getTime(), 200.20f, detalles);
+        System.out.println("" + result);
+        //1 correcto
+        //2 algun producto sobrepasa el stock
+        //3 codigo de factura repetido
+        //4 talvez no se construyo bien el mensaje
+        JOptionPane.showMessageDialog(null, "Mensaje del servidor: " + result);
 
-        Producto producto = Communication.retrieveProducto(idProducto);
-        if (producto != null) {
-            JOptionPane.showMessageDialog(null, "Producto encontrado: \n"+
-                    "Id: "+producto.getId()+"\n"+
-                    "Nombre: "+producto.getNombre()+"\n"+
-                    "Precio: "+producto.getPrecio()+"\n"+
-                    "Cantidad: "+producto.getCantidad()+"\n");
-        } else {
-            JOptionPane.showMessageDialog(null, "Id producto no se encontro en la base de datos");
-        }
     }
 
 }
