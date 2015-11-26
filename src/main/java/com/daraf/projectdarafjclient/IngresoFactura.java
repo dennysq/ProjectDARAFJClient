@@ -6,7 +6,10 @@
 package com.daraf.projectdarafjclient;
 
 import static com.daraf.projectdarafjclient.Login.empre;
+import com.daraf.projectdarafprotocol.model.Cliente;
 import com.daraf.projectdarafprotocol.model.Empresa;
+import com.daraf.projectdarafprotocol.model.Producto;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -46,30 +49,30 @@ public class IngresoFactura extends javax.swing.JFrame {
         jLabel9 = new javax.swing.JLabel();
         jSeparator2 = new javax.swing.JSeparator();
         jLabel10 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        txtproducto = new javax.swing.JTextField();
         jLabel11 = new javax.swing.JLabel();
         txtcliente = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        btnbuscarcliente = new javax.swing.JButton();
+        btnbuscarproducto = new javax.swing.JButton();
         jLabel12 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
         jButton3 = new javax.swing.JButton();
-        jTextField3 = new javax.swing.JTextField();
+        txtcantidad = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tblpro = new javax.swing.JTable();
         lblempresa = new javax.swing.JLabel();
         lblruc = new javax.swing.JLabel();
         lblempdir = new javax.swing.JLabel();
         lblemptel = new javax.swing.JLabel();
-        jLabel20 = new javax.swing.JLabel();
-        jLabel21 = new javax.swing.JLabel();
-        jLabel22 = new javax.swing.JLabel();
-        jLabel23 = new javax.swing.JLabel();
-        jLabel24 = new javax.swing.JLabel();
-        jLabel25 = new javax.swing.JLabel();
-        jLabel26 = new javax.swing.JLabel();
+        lblidencli = new javax.swing.JLabel();
+        lblnombrecli = new javax.swing.JLabel();
+        lbltelcli = new javax.swing.JLabel();
+        lbldircli = new javax.swing.JLabel();
+        lblidpro = new javax.swing.JLabel();
+        lblnompro = new javax.swing.JLabel();
+        lblprecio = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -93,20 +96,25 @@ public class IngresoFactura extends javax.swing.JFrame {
 
         jLabel10.setText("PRODUCTO");
 
-        jTextField1.setText("jTextField1");
+        txtproducto.setText("jTextField1");
 
         jLabel11.setText("CLIENTE");
 
         txtcliente.setText("jTextField2");
 
-        jButton1.setText("BUSCAR CLIENTE");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnbuscarcliente.setText("BUSCAR CLIENTE");
+        btnbuscarcliente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnbuscarclienteActionPerformed(evt);
             }
         });
 
-        jButton2.setText("BUSCAR PRODUCTO");
+        btnbuscarproducto.setText("BUSCAR PRODUCTO");
+        btnbuscarproducto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnbuscarproductoActionPerformed(evt);
+            }
+        });
 
         jLabel12.setText("ID");
 
@@ -117,10 +125,15 @@ public class IngresoFactura extends javax.swing.JFrame {
         jLabel15.setText("CANTIDAD");
 
         jButton3.setText("AGREGAR PRODUCTO");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
-        jTextField3.setText("jTextField3");
+        txtcantidad.setText("jTextField3");
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblpro.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -131,7 +144,7 @@ public class IngresoFactura extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tblpro);
 
         lblempresa.setText("jLabel16");
 
@@ -141,19 +154,19 @@ public class IngresoFactura extends javax.swing.JFrame {
 
         lblemptel.setText("jLabel19");
 
-        jLabel20.setText("jLabel20");
+        lblidencli.setText("jLabel20");
 
-        jLabel21.setText("jLabel21");
+        lblnombrecli.setText("jLabel21");
 
-        jLabel22.setText("jLabel22");
+        lbltelcli.setText("jLabel22");
 
-        jLabel23.setText("jLabel23");
+        lbldircli.setText("jLabel23");
 
-        jLabel24.setText("jLabel24");
+        lblidpro.setText("jLabel24");
 
-        jLabel25.setText("jLabel25");
+        lblnompro.setText("jLabel25");
 
-        jLabel26.setText("jLabel26");
+        lblprecio.setText("jLabel26");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -165,22 +178,22 @@ public class IngresoFactura extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel12)
                         .addGap(18, 18, 18)
-                        .addComponent(jLabel24)
+                        .addComponent(lblidpro)
                         .addGap(86, 86, 86)
                         .addComponent(jLabel13)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel25)
+                        .addComponent(lblnompro)
                         .addGap(125, 125, 125)
                         .addComponent(jLabel14)))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jTextField3)
+                        .addComponent(txtcantidad)
                         .addGap(18, 18, 18)
                         .addComponent(jButton3)
                         .addGap(76, 76, 76))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel26)
+                        .addComponent(lblprecio)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -227,27 +240,27 @@ public class IngresoFactura extends javax.swing.JFrame {
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addGroup(layout.createSequentialGroup()
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel20)
-                                            .addComponent(jLabel21))
+                                            .addComponent(lblidencli)
+                                            .addComponent(lblnombrecli))
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(jLabel8)
                                             .addComponent(jLabel9))
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel22)
-                                            .addComponent(jLabel23)))
+                                            .addComponent(lbltelcli)
+                                            .addComponent(lbldircli)))
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(txtcliente, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(23, 23, 23)
-                                        .addComponent(jButton1))))
+                                        .addComponent(btnbuscarcliente))))
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(54, 54, 54)
                                 .addComponent(jLabel10)
                                 .addGap(18, 18, 18)
-                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(txtproducto, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(29, 29, 29)
-                                .addComponent(jButton2)))
+                                .addComponent(btnbuscarproducto)))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -274,26 +287,26 @@ public class IngresoFactura extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel11)
                     .addComponent(txtcliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1))
+                    .addComponent(btnbuscarcliente))
                 .addGap(37, 37, 37)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
                     .addComponent(jLabel8)
-                    .addComponent(jLabel20)
-                    .addComponent(jLabel22))
+                    .addComponent(lblidencli)
+                    .addComponent(lbltelcli))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
                     .addComponent(jLabel9)
-                    .addComponent(jLabel21)
-                    .addComponent(jLabel23))
+                    .addComponent(lblnombrecli)
+                    .addComponent(lbldircli))
                 .addGap(18, 18, 18)
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel10)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2))
+                    .addComponent(txtproducto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnbuscarproducto))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
@@ -301,13 +314,13 @@ public class IngresoFactura extends javax.swing.JFrame {
                             .addComponent(jLabel12)
                             .addComponent(jLabel13)
                             .addComponent(jLabel14)
-                            .addComponent(jLabel24)
-                            .addComponent(jLabel25)
-                            .addComponent(jLabel26))
+                            .addComponent(lblidpro)
+                            .addComponent(lblnompro)
+                            .addComponent(lblprecio))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel15)
-                            .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(txtcantidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(jButton3))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -317,11 +330,37 @@ public class IngresoFactura extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnbuscarclienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnbuscarclienteActionPerformed
         // TODO add your handling code here:
 
+        Cliente cliente=new Cliente();
+        cliente=Communication.buscarcliente(txtcliente.getText());
+        lblidencli.setText(cliente.getIdentificacion());
+        lblnombrecli.setText(cliente.getNombre());
+        lbltelcli.setText(cliente.getTelefono());
+        lbldircli.setText(cliente.getDireccion());
         
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btnbuscarclienteActionPerformed
+
+    private void btnbuscarproductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnbuscarproductoActionPerformed
+        // TODO add your handling code here:
+        Producto producto=new Producto();
+        producto=Communication.retrieveProducto(txtproducto.getText());
+        lblidpro.setText(producto.getId());
+        lblnompro.setText(producto.getNombre());
+        lblprecio.setText(producto.getPrecio());
+    }//GEN-LAST:event_btnbuscarproductoActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+           Producto producto=new Producto();
+           producto= Communication.retrieveProducto(txtproducto.getText());
+           System.out.print(producto);
+           DefaultTableModel modelo = (DefaultTableModel)tblpro.getModel();
+           producto=new Producto("20","7","88888","hkjhk");
+          // modelo.addRow(new String[]{producto.getId(),producto.getNombre(),txtcantidad.getText(),Double.parseDouble(producto.getPrecio())*Double.parseDouble(txtcantidad.getText())});
+        modelo.addRow(new String[]{producto.getId(),producto.getNombre(),txtcantidad.getText()});
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -359,8 +398,8 @@ public class IngresoFactura extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton btnbuscarcliente;
+    private javax.swing.JButton btnbuscarproducto;
     private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -370,13 +409,6 @@ public class IngresoFactura extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel20;
-    private javax.swing.JLabel jLabel21;
-    private javax.swing.JLabel jLabel22;
-    private javax.swing.JLabel jLabel23;
-    private javax.swing.JLabel jLabel24;
-    private javax.swing.JLabel jLabel25;
-    private javax.swing.JLabel jLabel26;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -387,14 +419,21 @@ public class IngresoFactura extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField3;
+    private javax.swing.JLabel lbldircli;
     private javax.swing.JLabel lblempdir;
     private javax.swing.JLabel lblempresa;
     private javax.swing.JLabel lblemptel;
+    private javax.swing.JLabel lblidencli;
+    private javax.swing.JLabel lblidpro;
+    private javax.swing.JLabel lblnombrecli;
+    private javax.swing.JLabel lblnompro;
+    private javax.swing.JLabel lblprecio;
     private javax.swing.JLabel lblruc;
+    private javax.swing.JLabel lbltelcli;
+    private javax.swing.JTable tblpro;
+    private javax.swing.JTextField txtcantidad;
     private javax.swing.JTextField txtcliente;
+    private javax.swing.JTextField txtproducto;
     // End of variables declaration//GEN-END:variables
 
 }
