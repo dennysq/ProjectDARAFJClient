@@ -5,6 +5,7 @@
  */
 package com.daraf.projectdarafjclient;
 
+import static com.daraf.projectdarafjclient.Login.empre;
 import com.daraf.projectdarafprotocol.model.Empresa;
 
 /**
@@ -16,11 +17,12 @@ public class IngresoFactura extends javax.swing.JFrame {
     /**
      * Creates new form IngresoFactura
      */
-    private Empresa emp = new Empresa();
     public IngresoFactura() {
         initComponents();
-        
-        emp = Communication.retrieveEmpresa("shipo", "shipobot1");
+      lblempresa.setText(empre.getNombre());
+      lblemptel.setText(empre.getTelefono());
+      lblruc.setText(empre.getRuc());
+      lblempdir.setText(empre.getDireccion());
     }
 
     /**
@@ -317,8 +319,8 @@ public class IngresoFactura extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-      lblempresa.setText("hola");
-      txtcliente.setText("hoila");
+
+        
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
