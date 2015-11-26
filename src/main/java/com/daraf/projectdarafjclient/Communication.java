@@ -110,24 +110,7 @@ public class Communication {
         return false;
     }
 
-    public static Cliente buscarcliente(String datos) {
-        if (datos != null && datos.length() == 10) {
-            AppClient appClient = new AppClient();
-            ConsultaClienteRQ cliRQ = new ConsultaClienteRQ();
-            cliRQ.setIdentificacion(datos);
-
-            MensajeRQ mensajeRQ = new MensajeRQ("CONSULTACL", Mensaje.ID_MENSAJE_CONSULTACLIENTE);
-            mensajeRQ.setCuerpo(cliRQ);
-            MensajeRS mensajeRS = appClient.sendRequest(mensajeRQ);
-            ConsultaClienteRS cliRS = (ConsultaClienteRS) mensajeRS.getCuerpo();
-            if (cliRS.getResultado().equals("1")) {
-                System.out.println("" + cliRS.getCliente());
-                return cliRS.getCliente();
-            }
-
-        }
-        return null;
-    }
+    
 
     public static Producto retrieveProducto(String idProducto) {
 
