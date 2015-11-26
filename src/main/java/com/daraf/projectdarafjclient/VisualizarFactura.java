@@ -255,7 +255,7 @@ public class VisualizarFactura extends javax.swing.JFrame {
             String nombre;
             String telefono;
             String direccion;
-            ruc=emp.getRUC();
+            ruc=emp.getRuc();
             nombre=emp.getNombre();
             telefono=emp.getTelefono();
             direccion=emp.getDireccion();
