@@ -11,20 +11,17 @@ import com.daraf.projectdarafprotocol.clienteapp.MensajeRQ;
 import com.daraf.projectdarafprotocol.clienteapp.MensajeRS;
 import com.daraf.projectdarafprotocol.clienteapp.consultas.ConsultaClienteRQ;
 import com.daraf.projectdarafprotocol.clienteapp.consultas.ConsultaClienteRS;
+import com.daraf.projectdarafprotocol.clienteapp.consultas.ConsultaProductoRQ;
+import com.daraf.projectdarafprotocol.clienteapp.consultas.ConsultaProductoRS;
 import com.daraf.projectdarafprotocol.clienteapp.ingresos.IngresoClienteRQ;
 import com.daraf.projectdarafprotocol.clienteapp.ingresos.IngresoClienteRS;
 import com.daraf.projectdarafprotocol.clienteapp.ingresos.IngresoFacturaRQ;
 import com.daraf.projectdarafprotocol.clienteapp.ingresos.IngresoFacturaRS;
 import com.daraf.projectdarafprotocol.clienteapp.seguridades.AutenticacionEmpresaRQ;
 import com.daraf.projectdarafprotocol.clienteapp.seguridades.AutenticacionEmpresaRS;
-import com.daraf.projectdarafprotocol.model.DetalleFacturaAppRQ;
+import com.daraf.projectdarafprotocol.model.Cliente;
 import com.daraf.projectdarafprotocol.model.Empresa;
-import com.daraf.projectdarafutil.NetUtil;
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
+import com.daraf.projectdarafprotocol.model.Producto;
 
 /**
  *
@@ -64,73 +61,69 @@ public class Communication {
         }
         return null;
     }
-
-    public static boolean insertcliente(String id, String nombre, String direccion, String telefono) {
-        if (nombre != null && telefono != null && direccion != null && id.length() == 10) {
-            AppClient appClient = new AppClient();
-            IngresoClienteRQ ing = new IngresoClienteRQ();
-            ing.setId(id);
-            ing.setNombre(nombre);
-            ing.setDireccion(direccion);
-            ing.setTelefono(telefono);
-
-            MensajeRQ mensajeRQ = new MensajeRQ("freddy", Mensaje.ID_MENSAJE_INGRESOCLIENTE);
-            mensajeRQ.setCuerpo(ing);
-            MensajeRS mensajeRS = appClient.sendRequest(mensajeRQ);
-            if (mensajeRS != null) {
-                IngresoClienteRS ingrs = (IngresoClienteRS) mensajeRS.getCuerpo();
-                if (ingrs.getResultado().equals("1")) {
-                    return true;
-                } else {
-                    return false;
-                }
+    
+    public static boolean insertcliente(String id, String nombre, String direccion, String telefono)
+    {
+                if(nombre!=null && telefono!=null && direccion!=null && id.length()==10)
+                {
+                    AppClient appClient = new AppClient();
+                    IngresoClienteRQ ing= new IngresoClienteRQ();
+                    ing.setCliente(new Cliente(id, nombre, direccion, telefono));
+                    MensajeRQ mensajeRQ =new MensajeRQ("INGRESOCLI", Mensaje.ID_MENSAJE_INGRESOCLIENTE);
+                    mensajeRQ.setCuerpo(ing);
+                    MensajeRS mensajeRS = appClient.sendRequest(mensajeRQ);
+                    IngresoClienteRS ingrs=(IngresoClienteRS)mensajeRS.getCuerpo();
+                    if (ingrs.getResultado().equals("1")) {
+                      return true;
+                    }
+                      else{
+                              return false;
+                          }
             }
-        }
-        return false;
+                return false;
     }
-
-    public static String registrarFactura(String identificacionCliente, Date fecha, float totalFactura, List<DetalleFacturaAppRQ> detalles) {
-
-        if (identificacionCliente != null && fecha != null && detalles != null) {
-            IngresoFacturaRQ ingresoFacturaRQ = new IngresoFacturaRQ();
+    
+    public static Cliente buscarcliente(String datos)
+    {
+        if(datos!=null && datos.length()==10)
+        {
             AppClient appClient = new AppClient();
-
-            ingresoFacturaRQ.setDetalles(detalles);
-
-            ingresoFacturaRQ.setIdentificacion(identificacionCliente);
-            ingresoFacturaRQ.setNumeroDetalles(String.valueOf(detalles.size()));
-            SimpleDateFormat sdf = new SimpleDateFormat("ddMMyyyy");
-            ingresoFacturaRQ.setFecha(sdf.format(fecha));
-            BigDecimal total = new BigDecimal(totalFactura).setScale(2, RoundingMode.HALF_UP);
-            ingresoFacturaRQ.setTotal(total.toPlainString());
-            MensajeRQ mensajeRQ = new MensajeRQ(NetUtil.getLocalIPAddress(), Mensaje.ID_MENSAJE_INGRESOFACTURA);
-            mensajeRQ.setCuerpo(ingresoFacturaRQ);
-            MensajeRS mensajeRS = appClient.sendRequest(mensajeRQ);
-            if (mensajeRS != null) {
-                IngresoFacturaRS ingresoFacturaRS = (IngresoFacturaRS) mensajeRS.getCuerpo();
-                if (ingresoFacturaRS.getResultado().equals("1")) {
-                    return OK_RESPONSE;
-                } else {
-                    return BAD_RESPONSE;
-                }
-            }
-            return BAD_RESPONSE;
-        } else {
-            return NULL_PARAMETERS;
-        }
-
-    }
-
-    public static boolean buscarcliente(String identificacion) {
-        if (identificacion != null && identificacion.length() == 10) {
-            AppClient appClient = new AppClient();
-            ConsultaClienteRQ cliRQ = new ConsultaClienteRQ();
-            cliRQ.setIdentificacion(identificacion);
-
-            MensajeRQ mensajeRQ = new MensajeRQ("CONSULTACL", Mensaje.ID_MENSAJE_CONSULTACLIENTE);
+            ConsultaClienteRQ cliRQ =new ConsultaClienteRQ();
+            cliRQ.setIdentificacion(datos);
+            
+            MensajeRQ mensajeRQ =new MensajeRQ("CONSULTACL",Mensaje.ID_MENSAJE_CONSULTACLIENTE);
             mensajeRQ.setCuerpo(cliRQ);
             MensajeRS mensajeRS = appClient.sendRequest(mensajeRQ);
-            ConsultaClienteRS cliRS = (ConsultaClienteRS) mensajeRS.getCuerpo();
+            ConsultaClienteRS cliRS =(ConsultaClienteRS)mensajeRS.getCuerpo();
+            if(cliRS.getResultado().equals("1")){
+                System.out.println(""+cliRS.getCliente());
+                return cliRS.getCliente();
+            }
+            
+        }
+        return null;
+    }
+    
+    public static Producto retrieveProducto(String idProducto) {
+               
+        if (idProducto != null) {
+            AppClient appClient = new AppClient();
+            ConsultaProductoRQ cprq = new ConsultaProductoRQ();
+
+            cprq.setIdProducto(idProducto);
+
+            MensajeRQ mensajeRQ = new MensajeRQ("ale", Mensaje.ID_MENSAJE_CONSULTAPRODUCTO);
+            mensajeRQ.setCuerpo(cprq);
+            MensajeRS mensajeRS = appClient.sendRequest(mensajeRQ);
+            ConsultaProductoRS cprs = (ConsultaProductoRS) mensajeRS.getCuerpo();
+            if (cprs.getResultado().equals("1")) {
+                System.out.println(""+cprs.getProducto());
+                return cprs.getProducto();
+            }
+        }
+        return null;
+    }
+}
 
         }
         return false;
