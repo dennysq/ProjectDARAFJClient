@@ -20,7 +20,9 @@ public class Login extends javax.swing.JFrame {
     public Login() {
         initComponents();
     }
-
+   public static String usu;
+   public static String pass;
+   public static Empresa empre;
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -117,7 +119,10 @@ public class Login extends javax.swing.JFrame {
         if (usuario != null && password != null) {
             Empresa emp = Communication.retrieveEmpresa(usuario, password);
             if (emp != null) {
+              empre=new Empresa();
+              empre=emp;
                 JOptionPane.showMessageDialog(null, "Usuario Correcto");
+                
             } else {
                 JOptionPane.showMessageDialog(null, "El Usuario es incorrecto");
             }
