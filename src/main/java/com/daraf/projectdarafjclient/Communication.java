@@ -9,6 +9,8 @@ import com.daraf.projectdarafprotocol.AppClient;
 import com.daraf.projectdarafprotocol.Mensaje;
 import com.daraf.projectdarafprotocol.clienteapp.MensajeRQ;
 import com.daraf.projectdarafprotocol.clienteapp.MensajeRS;
+import com.daraf.projectdarafprotocol.clienteapp.consultas.ConsultaClienteRQ;
+import com.daraf.projectdarafprotocol.clienteapp.consultas.ConsultaClienteRS;
 import com.daraf.projectdarafprotocol.clienteapp.ingresos.IngresoClienteRQ;
 import com.daraf.projectdarafprotocol.clienteapp.ingresos.IngresoClienteRS;
 import com.daraf.projectdarafprotocol.clienteapp.seguridades.AutenticacionEmpresaRQ;
@@ -68,6 +70,22 @@ public class Communication {
                           }
             }
                 return false;
+    }
+    public static boolean buscarcliente(String datos)
+    {
+        if(datos!=null && datos.length()==10)
+        {
+            AppClient appClient = new AppClient();
+            ConsultaClienteRQ cliRQ=new ConsultaClienteRQ();
+            cliRQ.setIdentificacion(datos);
+            
+            MensajeRQ mensajeRQ =new MensajeRQ("CONSULTACL",Mensaje.ID_MENSAJE_CONSULTACLIENTE);
+            mensajeRQ.setCuerpo(cliRQ);
+            MensajeRS mensajeRS = appClient.sendRequest(mensajeRQ);
+            ConsultaClienteRS cliRS =(ConsultaClienteRS)mensajeRS.getCuerpo();
+            
+            
+        }
     }
 }
 
