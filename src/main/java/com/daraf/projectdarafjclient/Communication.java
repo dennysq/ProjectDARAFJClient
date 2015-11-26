@@ -17,8 +17,13 @@ import com.daraf.projectdarafprotocol.clienteapp.ingresos.IngresoFacturaRQ;
 import com.daraf.projectdarafprotocol.clienteapp.ingresos.IngresoFacturaRS;
 import com.daraf.projectdarafprotocol.clienteapp.seguridades.AutenticacionEmpresaRQ;
 import com.daraf.projectdarafprotocol.clienteapp.seguridades.AutenticacionEmpresaRS;
-import com.daraf.projectdarafprotocol.model.DetalleFactura;
+import com.daraf.projectdarafprotocol.model.DetalleFacturaAppRQ;
 import com.daraf.projectdarafprotocol.model.Empresa;
+import com.daraf.projectdarafutil.NetUtil;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -26,6 +31,10 @@ import java.util.List;
  * @author Dennys
  */
 public class Communication {
+
+    public static final String OK_RESPONSE = "OK";
+    public static final String BAD_RESPONSE = "BAD";
+    public static final String NULL_PARAMETERS = "Uno de los campos usados para el metodo es nulo";
 
     /**
      *
@@ -80,44 +89,51 @@ public class Communication {
         return false;
     }
 
-    public static boolean registrarFactura(String identificacionCliente, String direccion, String telefono, String nombreCliente, List<DetalleFactura> detalles) {
+    public static String registrarFactura(String identificacionCliente, Date fecha, float totalFactura, List<DetalleFacturaAppRQ> detalles) {
 
-        IngresoFacturaRQ ingresoFacturaRQ = new IngresoFacturaRQ();
-        AppClient appClient = new AppClient();
+        if (identificacionCliente != null && fecha != null && detalles != null) {
+            IngresoFacturaRQ ingresoFacturaRQ = new IngresoFacturaRQ();
+            AppClient appClient = new AppClient();
 
-        ingresoFacturaRQ.setDetalles(detalles);
-        ingresoFacturaRQ.setDireccion(direccion);
-        ingresoFacturaRQ.setTelefono(telefono);
-        ingresoFacturaRQ.setIdentificacion(identificacionCliente);
-        ingresoFacturaRQ.setNumeroDetalles(String.valueOf(detalles.size()));
-        MensajeRQ mensajeRQ = new MensajeRQ("dennys", Mensaje.ID_MENSAJE_INGRESOFACTURA);
-        mensajeRQ.setCuerpo(ingresoFacturaRQ);
-        MensajeRS mensajeRS = appClient.sendRequest(mensajeRQ);
-        if (mensajeRS != null) {
-            IngresoFacturaRS ingresoFacturaRS = (IngresoFacturaRS) mensajeRS.getCuerpo();
-            if (ingresoFacturaRS.getResultado().equals("1")) {
-                return true;
-            } else {
-                return false;
+            ingresoFacturaRQ.setDetalles(detalles);
+
+            ingresoFacturaRQ.setIdentificacion(identificacionCliente);
+            ingresoFacturaRQ.setNumeroDetalles(String.valueOf(detalles.size()));
+            SimpleDateFormat sdf = new SimpleDateFormat("ddMMyyyy");
+            ingresoFacturaRQ.setFecha(sdf.format(fecha));
+            BigDecimal total = new BigDecimal(totalFactura).setScale(2, RoundingMode.HALF_UP);
+            ingresoFacturaRQ.setTotal(total.toPlainString());
+            MensajeRQ mensajeRQ = new MensajeRQ(NetUtil.getLocalIPAddress(), Mensaje.ID_MENSAJE_INGRESOFACTURA);
+            mensajeRQ.setCuerpo(ingresoFacturaRQ);
+            MensajeRS mensajeRS = appClient.sendRequest(mensajeRQ);
+            if (mensajeRS != null) {
+                IngresoFacturaRS ingresoFacturaRS = (IngresoFacturaRS) mensajeRS.getCuerpo();
+                if (ingresoFacturaRS.getResultado().equals("1")) {
+                    return OK_RESPONSE;
+                } else {
+                    return BAD_RESPONSE;
+                }
             }
+            return BAD_RESPONSE;
+        } else {
+            return NULL_PARAMETERS;
         }
-        return false;
 
     }
-    public static boolean buscarcliente(String datos)
-    {
-        if(datos!=null && datos.length()==10)
-        {
+
+    public static boolean buscarcliente(String identificacion) {
+        if (identificacion != null && identificacion.length() == 10) {
             AppClient appClient = new AppClient();
-            ConsultaClienteRQ cliRQ=new ConsultaClienteRQ();
-            cliRQ.setIdentificacion(datos);
-            
-            MensajeRQ mensajeRQ =new MensajeRQ("CONSULTACL",Mensaje.ID_MENSAJE_CONSULTACLIENTE);
+            ConsultaClienteRQ cliRQ = new ConsultaClienteRQ();
+            cliRQ.setIdentificacion(identificacion);
+
+            MensajeRQ mensajeRQ = new MensajeRQ("CONSULTACL", Mensaje.ID_MENSAJE_CONSULTACLIENTE);
             mensajeRQ.setCuerpo(cliRQ);
             MensajeRS mensajeRS = appClient.sendRequest(mensajeRQ);
-            ConsultaClienteRS cliRS =(ConsultaClienteRS)mensajeRS.getCuerpo();
-            
-            
+            ConsultaClienteRS cliRS = (ConsultaClienteRS) mensajeRS.getCuerpo();
+
         }
+        return false;
     }
+
 }
