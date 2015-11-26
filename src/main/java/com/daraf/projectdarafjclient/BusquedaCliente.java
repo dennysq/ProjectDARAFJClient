@@ -5,6 +5,8 @@
  */
 package com.daraf.projectdarafjclient;
 
+import com.daraf.projectdarafprotocol.model.Cliente;
+
 /**
  *
  * @author MONY
@@ -117,8 +119,10 @@ public class BusquedaCliente extends javax.swing.JFrame {
         // TODO add your handling code here:
         String buscar;// valor fijo: 10 ejemplo:0000000019
         buscar=txtdatos.getText();
-        if(buscar!=null && buscar.length()==10 && numero(buscar)){
-         
+        if(buscar!=null && numero(buscar)){
+            Cliente cliente=new Cliente();
+           cliente= Communication.buscarcliente(buscar);
+           System.out.print(cliente);
         }
     }//GEN-LAST:event_BtnbuscarActionPerformed
     private boolean numero(String n){
