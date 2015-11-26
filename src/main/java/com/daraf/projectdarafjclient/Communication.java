@@ -90,27 +90,26 @@ public class Communication {
                 return false;
     }
     
-    public static Cliente buscarcliente(String datos)
-    {
-        if(datos!=null && datos.length()>9 && datos.length()<=15)
-        {
-            AppClient appClient = new AppClient();
-            IngresoClienteRQ ing = new IngresoClienteRQ();
-            ing.setCliente(new Cliente(id, nombre, direccion, telefono));
-            MensajeRQ mensajeRQ = new MensajeRQ("INGRESOCLI", Mensaje.ID_MENSAJE_INGRESOCLIENTE);
-            mensajeRQ.setCuerpo(ing);
-            MensajeRS mensajeRS = appClient.sendRequest(mensajeRQ);
-            IngresoClienteRS ingrs = (IngresoClienteRS) mensajeRS.getCuerpo();
-            if (ingrs.getResultado().equals("1")) {
-                return true;
-            } else {
-                return false;
-            }
-        }
-        return false;
-    }
+   
 
-    
+    public static Cliente buscarcliente(String datos) {
+        if (datos != null && datos.length() == 10) {
+            AppClient appClient = new AppClient();
+            ConsultaClienteRQ cliRQ = new ConsultaClienteRQ();
+            cliRQ.setIdentificacion(datos);
+
+            MensajeRQ mensajeRQ = new MensajeRQ("CONSULTACL", Mensaje.ID_MENSAJE_CONSULTACLIENTE);
+            mensajeRQ.setCuerpo(cliRQ);
+            MensajeRS mensajeRS = appClient.sendRequest(mensajeRQ);
+            ConsultaClienteRS cliRS = (ConsultaClienteRS) mensajeRS.getCuerpo();
+            if (cliRS.getResultado().equals("1")) {
+                System.out.println("" + cliRS.getCliente());
+                return cliRS.getCliente();
+            }
+
+        }
+        return null;
+    }
 
     public static Producto retrieveProducto(String idProducto) {
 
