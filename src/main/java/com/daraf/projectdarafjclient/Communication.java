@@ -15,6 +15,7 @@ import com.daraf.projectdarafprotocol.clienteapp.ingresos.IngresoClienteRQ;
 import com.daraf.projectdarafprotocol.clienteapp.ingresos.IngresoClienteRS;
 import com.daraf.projectdarafprotocol.clienteapp.seguridades.AutenticacionEmpresaRQ;
 import com.daraf.projectdarafprotocol.clienteapp.seguridades.AutenticacionEmpresaRS;
+import com.daraf.projectdarafprotocol.model.Cliente;
 import com.daraf.projectdarafprotocol.model.Empresa;
 import com.daraf.projectdarafprotocol.model.Producto;
 
@@ -55,12 +56,8 @@ public class Communication {
                 {
                     AppClient appClient = new AppClient();
                     IngresoClienteRQ ing= new IngresoClienteRQ();
-                    ing.setId(id);
-                    ing.setNombre(nombre);
-                    ing.setDireccion(direccion);
-                    ing.setTelefono(telefono);
-                    
-                    MensajeRQ mensajeRQ =new MensajeRQ("freddy", Mensaje.ID_MENSAJE_INGRESOCLIENTE);
+                    ing.setCliente(new Cliente(id, nombre, direccion, telefono));
+                    MensajeRQ mensajeRQ =new MensajeRQ("INGRESOCLI", Mensaje.ID_MENSAJE_INGRESOCLIENTE);
                     mensajeRQ.setCuerpo(ing);
                     MensajeRS mensajeRS = appClient.sendRequest(mensajeRQ);
                     IngresoClienteRS ingrs=(IngresoClienteRS)mensajeRS.getCuerpo();
@@ -72,6 +69,27 @@ public class Communication {
                           }
             }
                 return false;
+    }
+    
+    public static Cliente buscarcliente(String datos)
+    {
+        if(datos!=null && datos.length()==10)
+        {
+            AppClient appClient = new AppClient();
+            ConsultaClienteRQ cliRQ =new ConsultaClienteRQ();
+            cliRQ.setIdentificacion(datos);
+            
+            MensajeRQ mensajeRQ =new MensajeRQ("CONSULTACL",Mensaje.ID_MENSAJE_CONSULTACLIENTE);
+            mensajeRQ.setCuerpo(cliRQ);
+            MensajeRS mensajeRS = appClient.sendRequest(mensajeRQ);
+            ConsultaClienteRS cliRS =(ConsultaClienteRS)mensajeRS.getCuerpo();
+            if(cliRS.getResultado().equals("1")){
+                System.out.println(""+cliRS.getCliente());
+                return cliRS.getCliente();
+            }
+            
+        }
+        return null;
     }
     
     public static Producto retrieveProducto(String idProducto) {
