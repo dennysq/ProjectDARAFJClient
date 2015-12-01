@@ -4,7 +4,14 @@
  * and open the template in the editor.
  */
 package com.daraf.projectdarafjclient;
+import com.daraf.projectdarafprotocol.model.Cliente;
+import com.daraf.projectdarafprotocol.model.Detalle;
 import com.daraf.projectdarafprotocol.model.Empresa;
+import com.daraf.projectdarafprotocol.model.Factura;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 /**
  *
  * @author Freddy
@@ -14,8 +21,10 @@ public class VisualizarFactura extends javax.swing.JFrame {
     /**
      * Creates new form VisualizarFactura
      */
+    private Empresa emp;
     public VisualizarFactura() {
         initComponents();
+        this.tbldetalle.setModel(model);
     }
 
     /**
@@ -34,11 +43,11 @@ public class VisualizarFactura extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tbldetalle = new javax.swing.JTable();
         jLabel6 = new javax.swing.JLabel();
         lblid = new javax.swing.JLabel();
         lblnombre = new javax.swing.JLabel();
-        jLabel9 = new javax.swing.JLabel();
+        lbltelefonocli = new javax.swing.JLabel();
         lbldir = new javax.swing.JLabel();
         lblempresa = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
@@ -71,7 +80,7 @@ public class VisualizarFactura extends javax.swing.JFrame {
 
         jLabel5.setText("DIRECCION:");
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tbldetalle.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -82,7 +91,7 @@ public class VisualizarFactura extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane2.setViewportView(jTable1);
+        jScrollPane2.setViewportView(tbldetalle);
 
         jLabel6.setText("TELEFONO:");
 
@@ -90,7 +99,7 @@ public class VisualizarFactura extends javax.swing.JFrame {
 
         lblnombre.setText("jLabel8");
 
-        jLabel9.setText("jLabel9");
+        lbltelefonocli.setText("jLabel9");
 
         lbldir.setText("jLabel10");
 
@@ -155,7 +164,7 @@ public class VisualizarFactura extends javax.swing.JFrame {
                                     .addComponent(jLabel6))
                                 .addGap(18, 18, 18)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel9)
+                                    .addComponent(lbltelefonocli)
                                     .addComponent(lblnombre)
                                     .addComponent(lblid))
                                 .addGap(91, 91, 91)
@@ -236,7 +245,7 @@ public class VisualizarFactura extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel6)
-                            .addComponent(jLabel9))
+                            .addComponent(lbltelefonocli))
                         .addGap(15, 15, 15))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -266,15 +275,23 @@ public class VisualizarFactura extends javax.swing.JFrame {
         id=txtid.getText();
         if(id!=null && id.length()==10)
         {
-            Empresa emp = new Empresa();
-            String ruc;
-            String nombre;
-            String telefono;
-            String direccion;
-            ruc=emp.getRuc();
-            nombre=emp.getNombre();
-            telefono=emp.getTelefono();
-            direccion=emp.getDireccion();
+            Factura fact=new Factura();
+            fact=Communication.auxiliar(id);
+            try{
+           Cliente cliente=new Cliente();
+           cliente= Communication.buscarcliente(fact.getIdentificacionCliente());
+           System.out.print(cliente);
+           //model.addRow(new String[]{cliente.getIdentificacion(),cliente.getNombre(),cliente.getTelefono(),cliente.getDireccion()});
+            lblid.setText(cliente.getIdentificacion());
+            lblnombre.setText(cliente.getNombre());
+            lbltelefonocli.setText(cliente.getTelefono());
+            lbldir.setText(cliente.getDireccion());
+            Detalle detail=new Detalle();
+            detail=(Detalle) fact.getDetalles();
+            Object[] fila= new Object[model.getColumnCount()];
+            }catch(Exception e){
+              JOptionPane.showMessageDialog(null, "No Se encuentra Cliente");  
+            }
             
         }
     }//GEN-LAST:event_btnbuscarActionPerformed
@@ -323,6 +340,7 @@ public class VisualizarFactura extends javax.swing.JFrame {
             }
         });
     }
+        DefaultTableModel model = new DefaultTableModel(new String[]{"Id Producto", "Nombre", "Precio", "Cantidad"}, 0);
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnbuscar;
@@ -337,11 +355,9 @@ public class VisualizarFactura extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
-    private javax.swing.JTable jTable1;
     private javax.swing.JLabel lbldir;
     private javax.swing.JLabel lbldiremp;
     private javax.swing.JLabel lblempresa;
@@ -349,8 +365,17 @@ public class VisualizarFactura extends javax.swing.JFrame {
     private javax.swing.JLabel lblid;
     private javax.swing.JLabel lblnombre;
     private javax.swing.JLabel lblruc;
+    private javax.swing.JLabel lbltelefonocli;
     private javax.swing.JLabel lbltelemp;
+    private javax.swing.JTable tbldetalle;
     private javax.swing.JTextField txtid;
     // End of variables declaration//GEN-END:variables
 
+     public void setEmpresa(Empresa empresa) {
+        this.emp = empresa;
+        lblempresa.setText(empresa.getNombre());
+        lbltelemp.setText(empresa.getTelefono());
+        lblruc.setText(empresa.getRuc());
+        lbldiremp.setText(empresa.getDireccion());
+    }
 }
