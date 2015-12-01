@@ -11,6 +11,8 @@ import com.daraf.projectdarafprotocol.clienteapp.MensajeRQ;
 import com.daraf.projectdarafprotocol.clienteapp.MensajeRS;
 import com.daraf.projectdarafprotocol.clienteapp.consultas.ConsultaClienteRQ;
 import com.daraf.projectdarafprotocol.clienteapp.consultas.ConsultaClienteRS;
+import com.daraf.projectdarafprotocol.clienteapp.consultas.ConsultaFacturaRQ;
+import com.daraf.projectdarafprotocol.clienteapp.consultas.ConsultaFacturaRS;
 import com.daraf.projectdarafprotocol.clienteapp.consultas.ConsultaProductoRQ;
 import com.daraf.projectdarafprotocol.clienteapp.consultas.ConsultaProductoRS;
 import com.daraf.projectdarafprotocol.clienteapp.ingresos.IngresoClienteRQ;
@@ -22,6 +24,7 @@ import com.daraf.projectdarafprotocol.clienteapp.seguridades.AutenticacionEmpres
 import com.daraf.projectdarafprotocol.model.Cliente;
 import com.daraf.projectdarafprotocol.model.DetalleFacturaAppRQ;
 import com.daraf.projectdarafprotocol.model.Empresa;
+import com.daraf.projectdarafprotocol.model.Factura;
 import com.daraf.projectdarafprotocol.model.Producto;
 import com.daraf.projectdarafutil.NetUtil;
 import java.math.BigDecimal;
@@ -156,6 +159,25 @@ public class Communication {
             return NULL_PARAMETERS;
         }
 
+    }
+    
+    public static Factura buscarFactura(String datos) {
+        if (datos != null && datos.length() == 10) {
+            AppClient appClient = new AppClient();
+            ConsultaFacturaRQ cliRQ = new ConsultaFacturaRQ();
+            cliRQ.setIdFactura(datos);
+
+            MensajeRQ mensajeRQ = new MensajeRQ("ale", Mensaje.ID_MENSAJE_CONSULTAFACTURA);
+            mensajeRQ.setCuerpo(cliRQ);
+            MensajeRS mensajeRS = appClient.sendRequest(mensajeRQ);
+            ConsultaFacturaRS cliRS = (ConsultaFacturaRS) mensajeRS.getCuerpo();
+            if (cliRS.getResultado().equals("1")) {
+                System.out.println("" + cliRS.getFactura());
+                return cliRS.getFactura();
+            }
+
+        }
+        return null;
     }
 
 }
