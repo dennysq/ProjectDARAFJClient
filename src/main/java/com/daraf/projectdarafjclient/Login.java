@@ -123,9 +123,11 @@ public class Login extends javax.swing.JFrame {
                 empre = new Empresa();
                 empre = emp;
                 JOptionPane.showMessageDialog(null, "Usuario Correcto");
-                IngresoFactura i = new IngresoFactura();
-                i.setEmpresa(empre);
-                i.show();
+               // IngresoFactura i = new IngresoFactura();
+               // i.setEmpresa(empre);
+                //i.show();
+                Menu m=new Menu(empre);
+                m.show();
                 this.dispose();
             } else {
                 JOptionPane.showMessageDialog(null, "El Usuario es incorrecto");
