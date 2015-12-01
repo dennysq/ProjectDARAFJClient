@@ -5,6 +5,8 @@
  */
 package com.daraf.projectdarafjclient;
 
+import com.daraf.projectdarafjclient.validation.ValidacionTecladoLenght;
+import com.daraf.projectdarafjclient.validation.ValidacionTecladoNum;
 import javax.swing.JOptionPane;
 
 /**
@@ -18,6 +20,14 @@ public class IngresoCliente extends javax.swing.JFrame {
      */
     public IngresoCliente() {
         initComponents();
+        ValidacionTecladoLenght v = new ValidacionTecladoLenght(15);
+        ValidacionTecladoNum va = new ValidacionTecladoNum();
+        txtidentica.addKeyListener(v);
+        txtidentica.addKeyListener(va);
+        txtnombre.addKeyListener(new ValidacionTecladoLenght(50));
+        txttelefono.addKeyListener(new ValidacionTecladoNum());
+        txttelefono.addKeyListener(new ValidacionTecladoLenght(10));
+        txtdireccion.addKeyListener(new ValidacionTecladoLenght(50));
     }
 
     /**
@@ -41,7 +51,13 @@ public class IngresoCliente extends javax.swing.JFrame {
         btnGuardar = new javax.swing.JButton();
         btnSalir = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setResizable(false);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+        });
 
         jLabel1.setText("INGRESO DEL CLIENTE");
 
@@ -198,6 +214,11 @@ public class IngresoCliente extends javax.swing.JFrame {
         // TODO add your handling code here:
         this.dispose();
     }//GEN-LAST:event_btnSalirActionPerformed
+
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        // TODO add your handling code here:
+        Menu.abiertobuscar=false;
+    }//GEN-LAST:event_formWindowClosed
 
     /**
      * @param args the command line arguments

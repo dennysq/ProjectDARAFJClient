@@ -17,7 +17,7 @@ public class PruebaBusquedaCliente {
         String buscar;
         Cliente cliente = new Cliente();
 
-        cliente = Communication.buscarcliente("0000000000");
+        cliente = Communication.buscarcliente("1723520662001");
         if (cliente != null) {
             System.out.print(cliente.asTexto());
         } else {

@@ -6,6 +6,7 @@
 package com.daraf.projectdarafjclient;
 
 import com.daraf.projectdarafprotocol.model.Empresa;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -17,14 +18,18 @@ public class Menu extends javax.swing.JFrame {
      * Creates new form Menu
      */
     private Empresa empre;
+    public static boolean abiertobuscar;
+
     public Menu() {
         initComponents();
     }
 
     public Menu(Empresa emp) {
         initComponents();
-        this.empre=emp;
+        abiertobuscar = false;
+        this.empre = emp;
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -42,6 +47,7 @@ public class Menu extends javax.swing.JFrame {
         btnsalir = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         jLabel1.setFont(new java.awt.Font("Trebuchet MS", 1, 24)); // NOI18N
         jLabel1.setText("FACTURACIÓN");
@@ -132,33 +138,52 @@ public class Menu extends javax.swing.JFrame {
 
     private void btningcliActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btningcliActionPerformed
         // TODO add your handling code here:
-        IngresoCliente c=new IngresoCliente();
-        c.show();
+        
+        if (!abiertobuscar) {
+            IngresoCliente c = new IngresoCliente();
+            abiertobuscar = true;
+            c.show();
+
+        }  
     }//GEN-LAST:event_btningcliActionPerformed
 
     private void btningfactActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btningfactActionPerformed
         // TODO add your handling code here:
-        IngresoFactura i=new IngresoFactura();
-        i.setEmpresa(empre);
-        i.show();
-    }//GEN-LAST:event_btningfactActionPerformed
+        if (!abiertobuscar) {
+            IngresoFactura i = new IngresoFactura();
+            abiertobuscar = true;
+            i.setEmpresa(empre);
+            i.show();
 
-    private void btnbuscliActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnbuscliActionPerformed
-        // TODO add your handling code here:
-        BusquedaCliente b=new BusquedaCliente();
-        b.show();;
-    }//GEN-LAST:event_btnbuscliActionPerformed
+        }
+
+
+    }//GEN-LAST:event_btningfactActionPerformed
 
     private void btnvifactActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnvifactActionPerformed
         // TODO add your handling code here:
-        VisualizarFactura v=new VisualizarFactura();
-        v.show();
+        if (!abiertobuscar) {
+            VisualizarFactura v = new VisualizarFactura();
+            abiertobuscar = true;
+            v.show();
+        }
+
     }//GEN-LAST:event_btnvifactActionPerformed
 
     private void btnsalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnsalirActionPerformed
         // TODO add your handling code here:
         this.dispose();
     }//GEN-LAST:event_btnsalirActionPerformed
+
+    private void btnbuscliActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnbuscliActionPerformed
+        // TODO add your handling code here:
+        if (!abiertobuscar) {
+            BusquedaCliente b = new BusquedaCliente();
+            abiertobuscar = true;
+            b.show();
+
+        }
+    }//GEN-LAST:event_btnbuscliActionPerformed
 
     /**
      * @param args the command line arguments

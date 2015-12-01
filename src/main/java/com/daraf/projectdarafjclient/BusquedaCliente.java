@@ -5,7 +5,10 @@
  */
 package com.daraf.projectdarafjclient;
 
+import com.daraf.projectdarafjclient.validation.ValidacionTecladoLenght;
+import com.daraf.projectdarafjclient.validation.ValidacionTecladoNum;
 import com.daraf.projectdarafprotocol.model.Cliente;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -20,6 +23,8 @@ public class BusquedaCliente extends javax.swing.JFrame {
     public BusquedaCliente() {
         initComponents();
         this.TblBuscar.setModel(model);
+        txtdatos.addKeyListener(new ValidacionTecladoNum());
+        txtdatos.addKeyListener(new ValidacionTecladoLenght(15));
     }
 
     /**
@@ -39,7 +44,15 @@ public class BusquedaCliente extends javax.swing.JFrame {
         TblBuscar = new javax.swing.JTable();
         btnsalir = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         jLabel1.setText("BUSQUEDA DEL CLIENTE");
 
@@ -86,23 +99,22 @@ public class BusquedaCliente extends javax.swing.JFrame {
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(jLabel1)
                 .addGap(113, 113, 113))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addContainerGap()
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 324, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGroup(layout.createSequentialGroup()
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createSequentialGroup()
-                            .addGap(35, 35, 35)
-                            .addComponent(jLabel2))
-                        .addGroup(layout.createSequentialGroup()
-                            .addGap(26, 26, 26)
-                            .addComponent(txtdatos, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 47, Short.MAX_VALUE)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(Btnbuscar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnsalir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGap(14, 14, 14)))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 324, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(35, 35, 35)
+                        .addComponent(jLabel2))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(26, 26, 26)
+                        .addComponent(txtdatos, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 47, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(Btnbuscar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnsalir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(14, 14, 14))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -134,32 +146,38 @@ public class BusquedaCliente extends javax.swing.JFrame {
 
     private void BtnbuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnbuscarActionPerformed
         // TODO add your handling code here:
+        if(model.getRowCount()>0){
+        model.removeRow(0);
+        }
         String buscar;// valor fijo: 10 ejemplo:0000000019
+        
         buscar=txtdatos.getText();
         if(buscar!=null){
-            Cliente cliente=new Cliente();
+            try{
+                Cliente cliente=new Cliente();
            cliente= Communication.buscarcliente(buscar);
            System.out.print(cliente);
-           
-           //DefaultTableModel modelo = (DefaultTableModel)TblBuscar.getModel();
-           //cliente=new Cliente("20","7","88888","hkjhk");
            model.addRow(new String[]{cliente.getIdentificacion(),cliente.getNombre(),cliente.getTelefono(),cliente.getDireccion()});
-        }
+            }catch(Exception e){
+              JOptionPane.showMessageDialog(null, "No Se encuentra Cliente");  
+            }
     }//GEN-LAST:event_BtnbuscarActionPerformed
-
+    }
     private void btnsalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnsalirActionPerformed
         // TODO add your handling code here:
         this.dispose();
     }//GEN-LAST:event_btnsalirActionPerformed
-    private boolean numero(String n){
-        try{
-            Double.parseDouble(n);
-            return true;
-        }catch(Exception e)
-        {
-            return false;
-        }
-    }
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        // TODO add your handling code here:
+       
+    }//GEN-LAST:event_formWindowClosing
+
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        // TODO add your handling code here:
+         Menu.abiertobuscar=false;
+    }//GEN-LAST:event_formWindowClosed
+
     /**
      * @param args the command line arguments
      */

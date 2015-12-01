@@ -54,7 +54,12 @@ public class VisualizarFactura extends javax.swing.JFrame {
         jSeparator2 = new javax.swing.JSeparator();
         btnsalir = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+        });
 
         jLabel1.setText("BUSCAR FACTURA");
 
@@ -278,6 +283,11 @@ public class VisualizarFactura extends javax.swing.JFrame {
         // TODO add your handling code here:
         this.dispose();
     }//GEN-LAST:event_btnsalirActionPerformed
+
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        // TODO add your handling code here:
+        Menu.abiertobuscar=false;
+    }//GEN-LAST:event_formWindowClosed
 
     /**
      * @param args the command line arguments
